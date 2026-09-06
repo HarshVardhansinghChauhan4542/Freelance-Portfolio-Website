@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Design Tokens — HSL custom properties
+   Dark mode is the DEFAULT. Light mode via .light class.
+   ============================================================ */
+
+@layer base {
+  :root {
+    --background: 240 10% 6%;
+    --foreground: 0 0% 93%;
+
+    --card: 240 6% 10%;
+    --card-foreground: 0 0% 93%;
+
+    --primary: 38 92% 50%;
+    --primary-foreground: 240 10% 6%;
+
+    --secondary: 240 5% 16%;
+    --secondary-foreground: 0 0% 93%;
+
+    --muted: 240 5% 18%;
+    --muted-foreground: 240 5% 55%;
+
+    --accent: 240 5% 16%;
+    --accent-foreground: 0 0% 93%;
+
+    --border: 240 5% 18%;
+    --input: 240 5% 18%;
+    --ring: 38 92% 50%;
+  }
+
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 6%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 6%;
+
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 92%;
+    --secondary-foreground: 240 10% 6%;
+
+    --muted: 240 5% 92%;
+    --muted-foreground: 240 5% 45%;
+
+    --accent: 240 5% 92%;
+    --accent-foreground: 240 10% 6%;
+
+    --border: 240 5% 88%;
+    --input: 240 5% 88%;
+    --ring: 38 92% 50%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================================
+   Custom Utilities
+   ============================================================ */
+
+@layer utilities {
+  /* Marquee — for tech stack */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Text gradient utility */
+  .text-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(38 92% 65%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effect for buttons */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.15),
+                0 0 60px hsl(var(--primary) / 0.05);
+  }
+
+  /* Glassmorphic header */
+  .glass {
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* Hide scrollbar for marquee containers */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Selection styling
+   ============================================================ */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+}
