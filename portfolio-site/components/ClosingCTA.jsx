@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import SectionReveal from "./SectionReveal";
 import MagneticButton from "./MagneticButton";
 import ContactModal from "./ContactModal";
@@ -12,11 +13,20 @@ export default function ClosingCTA() {
     <section className="relative py-[120px] md:py-[200px]">
       <div className="mx-auto max-w-container px-6 lg:px-8 text-center">
         <SectionReveal>
-          <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-tight text-foreground mb-8">
-            HAVE A PROJECT
-            <br />
-            <span className="text-gradient-primary">WORTH BUILDING?</span>
-          </h2>
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{
+              duration: 4,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+          >
+            <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-tight text-foreground mb-8">
+              HAVE A PROJECT
+              <br />
+              <span className="text-gradient-primary">WORTH BUILDING?</span>
+            </h2>
+          </motion.div>
         </SectionReveal>
 
         <SectionReveal delay={0.15}>

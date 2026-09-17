@@ -9,7 +9,7 @@ export default function About() {
         <SectionReveal>
           <h2 className="font-display text-[clamp(1.5rem,4vw,3rem)] leading-tight text-foreground mb-12 max-w-4xl">
             &ldquo;I believe in building AI systems that are{" "}
-            <span className="text-gradient-primary">mathematically rigorous</span>{" "}
+            <span className="text-shine">mathematically rigorous</span>{" "}
             and genuinely usable.&rdquo;
           </h2>
         </SectionReveal>

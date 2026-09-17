@@ -104,6 +104,25 @@
     background-clip: text;
   }
 
+  @keyframes shine {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .text-shine {
+    background: linear-gradient(
+      to right,
+      hsl(var(--primary)) 20%,
+      hsl(38 92% 80%) 50%,
+      hsl(var(--primary)) 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 4s linear infinite;
+  }
+
   /* Glow effect for buttons */
   .glow-primary {
     box-shadow: 0 0 20px hsl(var(--primary) / 0.15),

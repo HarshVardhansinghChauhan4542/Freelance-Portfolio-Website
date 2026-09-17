@@ -70,12 +70,14 @@ export default function Header() {
           }`}
         >
           {/* Logo */}
-          <a
+          <motion.a
             href="#home"
-            className="font-display text-lg tracking-wider text-foreground transition-colors hover:text-primary"
+            className="font-display text-lg text-foreground transition-colors hover:text-primary origin-left inline-block"
+            whileHover={{ letterSpacing: "0.1em" }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
             HARSHVARDHAN
-          </a>
+          </motion.a>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">

@@ -46,12 +46,12 @@ function TimelineDot({ index }) {
       animate={
         prefersReducedMotion || isInView
           ? {
-              backgroundColor: "hsl(38 92% 50%)",
-              boxShadow: "0 0 12px hsl(38 92% 50% / 0.5)",
+              backgroundColor: "hsl(38, 92%, 50%)",
+              boxShadow: "0 0 12px hsla(38, 92%, 50%, 0.5)",
             }
           : {
-              backgroundColor: "transparent",
-              boxShadow: "0 0 0px transparent",
+              backgroundColor: "hsla(38, 92%, 50%, 0)",
+              boxShadow: "0 0 0px hsla(38, 92%, 50%, 0)",
             }
       }
       transition={{ duration: 0.5, delay: index * 0.1 }}
