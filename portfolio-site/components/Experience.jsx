@@ -1,6 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
 import SectionReveal from "./SectionReveal";
 
 const experiences = [
@@ -27,9 +34,49 @@ const experiences = [
   },
 ];
 
-export default function Experience() {
+function TimelineDot({ index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <section id="experience" className="relative py-[120px] md:py-[200px]">
+    <motion.div
+      ref={ref}
+      className="absolute left-[11px] md:left-[27px] top-1 w-3 h-3 rounded-full border-2 border-primary transition-colors duration-500"
+      animate={
+        prefersReducedMotion || isInView
+          ? {
+              backgroundColor: "hsl(38 92% 50%)",
+              boxShadow: "0 0 12px hsl(38 92% 50% / 0.5)",
+            }
+          : {
+              backgroundColor: "transparent",
+              boxShadow: "0 0 0px transparent",
+            }
+      }
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    />
+  );
+}
+
+export default function Experience() {
+  const sectionRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end 70%"],
+  });
+
+  // Drive the line height from 0 to 100% based on scroll
+  const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <section
+      id="experience"
+      ref={sectionRef}
+      className="relative py-[120px] md:py-[200px]"
+    >
       <div className="mx-auto max-w-container px-6 lg:px-8">
         <SectionReveal>
           <p className="text-sm text-primary font-medium tracking-widest uppercase mb-4">
@@ -42,8 +89,16 @@ export default function Experience() {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-border" />
+          {/* Background rail (dim) */}
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-border/30" />
+
+          {/* Animated draw-in line */}
+          <motion.div
+            className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-primary origin-top"
+            style={{
+              scaleY: prefersReducedMotion ? 1 : lineScaleY,
+            }}
+          />
 
           <div className="space-y-12 md:space-y-16">
             {experiences.map((exp, i) => (
@@ -53,8 +108,8 @@ export default function Experience() {
                   whileHover={{ x: 4 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  {/* Timeline dot */}
-                  <div className="absolute left-[11px] md:left-[27px] top-1 w-3 h-3 rounded-full border-2 border-primary bg-background group-hover:bg-primary transition-colors duration-300" />
+                  {/* Animated timeline dot */}
+                  <TimelineDot index={i} />
 
                   {/* Content */}
                   <div className="pb-1">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 export default function SectionReveal({
   children,
@@ -12,10 +12,11 @@ export default function SectionReveal({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
 
   // GSAP ScrollTrigger path (for sections that need more control)
   useEffect(() => {
-    if (!useGSAP || typeof window === "undefined") return;
+    if (!useGSAP || typeof window === "undefined" || prefersReducedMotion) return;
 
     let gsapInstance;
     let scrollTriggerInstance;
@@ -32,14 +33,14 @@ export default function SectionReveal({
         ref.current,
         {
           opacity: 0,
-          y: direction === "up" ? 60 : direction === "down" ? -60 : 0,
-          x: direction === "left" ? 60 : direction === "right" ? -60 : 0,
+          y: direction === "up" ? 40 : direction === "down" ? -40 : 0,
+          x: direction === "left" ? 40 : direction === "right" ? -40 : 0,
         },
         {
           opacity: 1,
           y: 0,
           x: 0,
-          duration: 0.8,
+          duration: 0.6,
           delay,
           ease: "power3.out",
           scrollTrigger: {
@@ -58,9 +59,18 @@ export default function SectionReveal({
         scrollTriggerInstance.getAll().forEach((t) => t.kill());
       }
     };
-  }, [useGSAP, direction, delay]);
+  }, [useGSAP, direction, delay, prefersReducedMotion]);
 
-  // Framer Motion path (default — simpler, works well for most sections)
+  // Reduced motion — render immediately with no animation
+  if (prefersReducedMotion) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
+
+  // GSAP path
   if (useGSAP) {
     return (
       <div ref={ref} className={`opacity-0 ${className}`}>
@@ -69,20 +79,22 @@ export default function SectionReveal({
     );
   }
 
+  // Framer Motion path (default)
   const variants = {
     hidden: {
       opacity: 0,
-      y: direction === "up" ? 60 : direction === "down" ? -60 : 0,
-      x: direction === "left" ? 60 : direction === "right" ? -60 : 0,
+      y: direction === "up" ? 24 : direction === "down" ? -24 : 0,
+      x: direction === "left" ? 24 : direction === "right" ? -24 : 0,
     },
     visible: {
       opacity: 1,
       y: 0,
       x: 0,
       transition: {
-        duration: 0.7,
+        duration: 0.6,
         delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: "easeOut",
+        staggerChildren: 0.08,
       },
     },
   };

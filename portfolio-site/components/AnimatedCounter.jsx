@@ -6,7 +6,7 @@ import { useInView } from "framer-motion";
 export default function AnimatedCounter({ target, suffix = "", duration = 2000 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "0px" });
   const hasAnimated = useRef(false);
 
   useEffect(() => {
@@ -34,9 +34,12 @@ export default function AnimatedCounter({ target, suffix = "", duration = 2000 }
     requestAnimationFrame(animate);
   }, [isInView, target, duration]);
 
+  // Format large numbers with commas
+  const formatted = count.toLocaleString();
+
   return (
     <span ref={ref} className="tabular-nums">
-      {count}
+      {formatted}
       {suffix}
     </span>
   );

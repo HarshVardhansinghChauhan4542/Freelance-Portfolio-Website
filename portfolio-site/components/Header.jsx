@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ContactModal from "./ContactModal";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -18,10 +19,10 @@ export default function Header() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const headerRef = useRef(null);
 
-  // Track scroll position for glass effect
+  // Track scroll position for glass effect + height shrink
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 80);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -58,12 +59,16 @@ export default function Header() {
       ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "glass border-b border-border/50 shadow-lg shadow-black/10"
+          ? "glass border-b border-border/50 shadow-lg shadow-black/5"
           : "bg-transparent"
       }`}
     >
       <nav className="mx-auto max-w-container px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between md:h-20">
+        <div
+          className={`flex items-center justify-between transition-all duration-300 ${
+            scrolled ? "h-16" : "h-16 md:h-24"
+          }`}
+        >
           {/* Logo */}
           <a
             href="#home"
@@ -96,8 +101,10 @@ export default function Header() {
             ))}
           </div>
 
-          {/* Right side — socials + CTA */}
+          {/* Right side — theme toggle + socials + CTA */}
           <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+
             {/* GitHub */}
             <a
               href="https://github.com/HarshVardhansinghChauhan4542"
@@ -134,28 +141,31 @@ export default function Header() {
           </div>
 
           {/* Mobile hamburger */}
-          <button
-            className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={mobileOpen}
-          >
-            <span
-              className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "rotate-45 translate-y-2" : ""
-              }`}
-            />
-            <span
-              className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                mobileOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
-            />
-          </button>
+          <div className="flex md:hidden items-center gap-3">
+            <ThemeToggle />
+            <button
+              className="relative w-8 h-8 flex flex-col items-center justify-center gap-1.5"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileOpen}
+            >
+              <span
+                className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
+                  mobileOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              />
+              <span
+                className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
+                  mobileOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`w-6 h-0.5 bg-foreground transition-all duration-300 ${
+                  mobileOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </nav>
 

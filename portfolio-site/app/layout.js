@@ -1,4 +1,7 @@
 import { Inter, Anton } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import SmoothScroll from "../components/SmoothScroll";
+import CustomCursor from "../components/CustomCursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,11 +42,21 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`dark ${inter.variable} ${anton.variable}`}
+      className={`${inter.variable} ${anton.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen font-body antialiased">
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <SmoothScroll>
+            <CustomCursor />
+            {children}
+          </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

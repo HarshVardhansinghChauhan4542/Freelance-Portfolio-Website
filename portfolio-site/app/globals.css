@@ -8,7 +8,8 @@
    ============================================================ */
 
 @layer base {
-  :root {
+  :root,
+  .dark {
     --background: 240 10% 6%;
     --foreground: 0 0% 93%;
 
@@ -34,26 +35,26 @@
 
   .light {
     --background: 0 0% 98%;
-    --foreground: 240 10% 6%;
+    --foreground: 240 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 6%;
+    --card-foreground: 240 10% 10%;
 
-    --primary: 38 92% 50%;
+    --primary: 38 92% 45%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 5% 92%;
-    --secondary-foreground: 240 10% 6%;
+    --secondary-foreground: 240 10% 10%;
 
     --muted: 240 5% 92%;
-    --muted-foreground: 240 5% 45%;
+    --muted-foreground: 240 5% 40%;
 
     --accent: 240 5% 92%;
-    --accent-foreground: 240 10% 6%;
+    --accent-foreground: 240 10% 10%;
 
-    --border: 240 5% 88%;
-    --input: 240 5% 88%;
-    --ring: 38 92% 50%;
+    --border: 240 5% 85%;
+    --input: 240 5% 85%;
+    --ring: 38 92% 45%;
   }
 
   * {
@@ -68,9 +69,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
+  /* Smooth theme color transitions */
+  body,
+  body * {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 }
 
@@ -123,6 +125,24 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Marquee edge fade using mask-image */
+  .marquee-fade-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
 }
 
 /* ============================================================
@@ -135,7 +155,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
@@ -145,4 +164,19 @@
 ::selection {
   background: hsl(var(--primary) / 0.3);
   color: hsl(var(--foreground));
+}
+
+/* ============================================================
+   Lenis smooth scroll
+   ============================================================ */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
