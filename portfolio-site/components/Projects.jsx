@@ -28,6 +28,14 @@ const freelanceProjects = [
     link: "https://vasudevarestaurant.in/",
     image: "/projects/vasudeva.png",
   },
+  {
+    title: "Pro Ultimate Gym",
+    tags: ["Freelance", "Web Development"],
+    description:
+      "Professional website and platform built for Pro Ultimate Gym.",
+    link: "https://proultimate.com/",
+    image: "/projects/pro.png",
+  },
 ];
 
 const selfProjects = [
